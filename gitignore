@@ -1,0 +1,45 @@
+# ====================================================
+# Texas Instruments Code Composer Studio (CCS) / Eclipse
+# ====================================================
+
+# Build and Output Directories
+Debug/
+Release/
+*.out
+*.hex
+*.bin
+*.obj
+*.o
+*.d
+*.map
+*.lst
+*.m51
+
+# Auto-generated Makefiles in build folders
+*.makefile
+makefile
+objects.mk
+sources.mk
+subdir_rules.mk
+
+# IDE Local User Settings & Launch Configurations
+.launches/
+.settings/
+*.launch
+.workspace/
+
+# Temporary and Backup Files
+*.tmp
+*.bak
+*.swp
+*~
+*.log
+
+# OS Generated Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

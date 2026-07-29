@@ -1,0 +1,11 @@
+name: Lint GitHub Action
+description: Linting
+
+runs:
+  using: "composite"
+  steps:
+    - name: Download and Run actionlint
+      run: |
+        bash <(curl -sL https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+        ./actionlint -color
+      shell: bash

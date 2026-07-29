@@ -1,0 +1,11 @@
+name: 'Setup ARM GNU Toolchain'
+description: 'Installs build-essential and the ARM Cortex-M embedded cross-compiler'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install ARM Toolchain & Build Essentials
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential gcc-arm-none-eabi

@@ -1,0 +1,24 @@
+name: CodeQL C/C++ Analysis
+description: Perform analysis on code
+
+runs:
+  using: "composite"
+  steps:
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: 'cpp'
+
+    - name: Setup Embedded Toolchains
+      uses: carlosperate/arm-none-eabi-gcc-action@v1
+      with:
+        release: 'latest'
+
+    - name: Compile Target Binary
+      run: |
+        make clean
+        make target
+      shell: bash
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3

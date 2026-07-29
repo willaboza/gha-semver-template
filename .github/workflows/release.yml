@@ -1,0 +1,19 @@
+name: Local Template Release
+
+on:
+  push:
+    branches:
+      - "main"
+    tags:
+      - 'v[0-9]*.[0-9]*.[0-9]*' # Enforces SemVer using standard glob patterns
+
+permissions:
+  contents: write 
+
+jobs:
+  call-semver-release:
+    # Uses a relative path to call the template within the same repository
+    uses: ./.github/workflows/semver-release.yml
+    secrets:
+      # Maps the local GITHUB_TOKEN to the template's required RELEASE_TOKEN
+      RELEASE_TOKEN: ${{ secrets.GITHUB_TOKEN }}

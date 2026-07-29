@@ -1,0 +1,16 @@
+name: Trivy Security Scan
+description: Performs Trivy Security Scan
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run Trivy FS Scan High / Critical
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'table'
+        exit-code: '1' # Fails this specific job if vulnerabilities are found
+        ignore-unfixed: true
+        hide-progress: true
+        severity: 'CRITICAL,HIGH'
