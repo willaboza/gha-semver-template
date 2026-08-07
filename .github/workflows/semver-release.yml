@@ -19,7 +19,8 @@ on:
         required: true
 
 permissions:
-  contents: write 
+  contents: write
+  pull-requests: write
 
 jobs:
   release:
@@ -46,7 +47,7 @@ jobs:
           ${{ inputs.build_command }}
           echo "Production build completed for SemVer tag: $(git describe --tags)"
 
-# Step 1: Overwrite the physical CHANGELOG.md with the full history
+      # Step 1: Overwrite the physical CHANGELOG.md with the full history
       - name: Update physical CHANGELOG.md
         uses: orhun/git-cliff-action@v4
         with:
@@ -71,6 +72,7 @@ jobs:
           title: "chore(ci): update CHANGELOG.md for ${{ github.ref_name }}"
           branch: update-changelog-${{ github.ref_name }}
           base: main
+          add-paths: CHANGELOG.md # <-- Restricts the commit to ONLY this file
           body: |
             Automated PR to sync the physical CHANGELOG.md file after the release of ${{ github.ref_name }}.
 
