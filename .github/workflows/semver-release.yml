@@ -47,7 +47,7 @@ jobs:
           echo "Production build completed for SemVer tag: $(git describe --tags)"
 
       - name: Generate Changelog with git-cliff
-        uses: orhun/git-cliff-action@v3
+        uses: orhun/git-cliff-action@v4
         with:
           config: cliff.toml
           args: -vv --latest --strip header
