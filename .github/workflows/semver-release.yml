@@ -46,13 +46,29 @@ jobs:
           ${{ inputs.build_command }}
           echo "Production build completed for SemVer tag: $(git describe --tags)"
 
-      - name: Generate Changelog with git-cliff
+# Step 1: Overwrite the physical CHANGELOG.md with the full history
+      - name: Update physical CHANGELOG.md
+        uses: orhun/git-cliff-action@v4
+        with:
+          config: cliff.toml
+          args: -vv -o CHANGELOG.md
+
+      # Step 2: Generate the temporary file for the GitHub Release page body
+      - name: Generate temporary release notes
         uses: orhun/git-cliff-action@v4
         with:
           config: cliff.toml
           args: -vv --latest --strip header
         env:
           OUTPUT: RELEASE_NOTES.md
+
+      # Step 3: Commit the updated physical CHANGELOG.md back to the main branch
+      - name: Commit CHANGELOG.md to repository
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(ci): update CHANGELOG.md for ${{ github.ref_name }}"
+          file_pattern: "CHANGELOG.md"
+          branch: "main" # Explicitly targets main since the workflow is triggered by a tag
 
       - name: Publish GitHub Release & Attach Firmware
         uses: softprops/action-gh-release@v2
