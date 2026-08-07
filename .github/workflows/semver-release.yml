@@ -62,13 +62,17 @@ jobs:
         env:
           OUTPUT: RELEASE_NOTES.md
 
-      # Step 3: Commit the updated physical CHANGELOG.md back to the main branch
-      - name: Commit CHANGELOG.md to repository
-        uses: stefanzweifel/git-auto-commit-action@v5
+      # Step 3: Open a PR to merge CHANGELOG.md back to main
+      - name: Create Pull Request for CHANGELOG
+        uses: peter-evans/create-pull-request@v6
         with:
-          commit_message: "chore(ci): update CHANGELOG.md for ${{ github.ref_name }}"
-          file_pattern: "CHANGELOG.md"
-          branch: "main" # Explicitly targets main since the workflow is triggered by a tag
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore(ci): update CHANGELOG.md for ${{ github.ref_name }}"
+          title: "chore(ci): update CHANGELOG.md for ${{ github.ref_name }}"
+          branch: update-changelog-${{ github.ref_name }}
+          base: main
+          body: |
+            Automated PR to sync the physical CHANGELOG.md file after the release of ${{ github.ref_name }}.
 
       - name: Publish GitHub Release & Attach Firmware
         uses: softprops/action-gh-release@v2
